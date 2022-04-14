@@ -1,5 +1,7 @@
 package dev.mfaydali.models;
 
+import java.util.Objects;
+
 public class Employee {
 	// let's determine fields
 	private int employeeId;
@@ -7,74 +9,110 @@ public class Employee {
 	private int deptId;
 	private String firstName;
 	private String lastName;
+	private String username;
+	private String password;
 
-	// Constructor
-	public Employee() {
-		this.employeeId = 0;
-		this.managerId = 0;
-		this.deptId = 0;
-		this.firstName = "";
-		this.lastName = "";
+
+	public Employee(int employeeId, int managerId, int deptId, String firstName, String lastName, String username,
+			String password) {
+		super();
+		this.employeeId = employeeId;
+		this.managerId = managerId;
+		this.deptId = deptId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.username = username;
+		this.password = password;
 	}
 
 
-	public Employee(int i, int j, int k, String string, String string2) {
+	public Employee() {
 		// TODO Auto-generated constructor stub
 	}
 
 
-	// getter and setters
 	public int getEmployeeId() {
 		return employeeId;
 	}
+
 
 	public void setEmployeeId(int employeeId) {
 		this.employeeId = employeeId;
 	}
 
+
 	public int getManagerId() {
 		return managerId;
 	}
+
 
 	public void setManagerId(int managerId) {
 		this.managerId = managerId;
 	}
 
+
 	public int getDeptId() {
 		return deptId;
 	}
+
 
 	public void setDeptId(int deptId) {
 		this.deptId = deptId;
 	}
 
-	public String getfName() {
+
+	public String getFirstName() {
 		return firstName;
 	}
 
-	public void setfName(String fName) {
-		this.firstName = fName;
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getLname() {
+
+	public String getLastName() {
 		return lastName;
 	}
 
-	public void setLname(String lname) {
-		this.lastName = lname;
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
+
+
+	public String getUsername() {
+		return username;
+	}
+
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Employee [employeeId=" + employeeId + ", managerId=" + managerId + ", deptId=" + deptId + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", username=" + username + ", password=" + password + "]";
+	}
+
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + deptId;
-		result = prime * result + employeeId;
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + managerId;
-		return result;
+		return Objects.hash(deptId, employeeId, firstName, lastName, managerId, password, username);
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -85,30 +123,15 @@ public class Employee {
 		if (getClass() != obj.getClass())
 			return false;
 		Employee other = (Employee) obj;
-		if (deptId != other.deptId)
-			return false;
-		if (employeeId != other.employeeId)
-			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
-		if (managerId != other.managerId)
-			return false;
-		return true;
+		return deptId == other.deptId && employeeId == other.employeeId && Objects.equals(firstName, other.firstName)
+				&& Objects.equals(lastName, other.lastName) && managerId == other.managerId
+				&& Objects.equals(password, other.password) && Objects.equals(username, other.username);
 	}
 
-	@Override
-	public String toString() {
-		return "Employee [employeeId=" + employeeId + ", managerId=" + managerId + ", deptId=" + deptId + ", firstName="
-				+ firstName + ", lastname=" + lastName + "]";
-	}
+
+
+
+
 
 
 }

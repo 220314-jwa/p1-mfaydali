@@ -28,11 +28,11 @@ public class EmployeeDAOTest {
 	@BeforeAll
 	public static void setUp() {
 		// this is the base test user used for most tests
-		testEmployee.setfName("test");
+		testEmployee.setFirstName("test");
 
 		// this is the user to test create and delete
 		Random rand = new Random();
-		testNewEmployee.setfName("test_" + rand.nextLong());
+		testNewEmployee.setFirstName("test_" + rand.nextLong());
 
 		// TODO create user in DB with username "test"
 		// and set the user's ID to the returned value

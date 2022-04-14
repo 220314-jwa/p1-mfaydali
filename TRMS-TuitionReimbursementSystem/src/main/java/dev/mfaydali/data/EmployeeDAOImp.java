@@ -28,8 +28,8 @@ public class EmployeeDAOImp implements EmployeeDAO {
 	public int createEmployee(Employee e) {
 		// this stores our sql command, that we would normally to DBeaver/command line
 		// 0 1 2 3 4 5
-		String sql = "INSERT INTO employees (employee_id, manager_id, dept_id, firstName, lastName)"
-				+ "VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO employees (employee_id, manager_id, dept_id, firstName, lastName, username, password)"
+				+ "VALUES (?, ?, ?, ?, ?, ?,?)";
 		try {
 			// create a prepared statement, we pass in the sql command
 			// also the flag "RETURN_GENERATED_KEYS" so we can get that id that is generated
@@ -39,8 +39,10 @@ public class EmployeeDAOImp implements EmployeeDAO {
 			ps.setInt(1, e.getEmployeeId());
 			ps.setInt(2, e.getManagerId());
 			ps.setInt(3, e.getDeptId());
-			ps.setString(4, e.getfName());
-			ps.setString(5, e.getLname());
+			ps.setString(4, e.getFirstName());
+			ps.setString(5, e.getLastName());
+			ps.setString(5, e.getUsername());
+			ps.setString(5, e.getPassword());
 			return 1;
 
 		} catch (SQLException exception) {
@@ -61,9 +63,10 @@ public class EmployeeDAOImp implements EmployeeDAO {
 				e.setEmployeeId(rs.getInt("employee_id"));
 				e.setManagerId(rs.getInt("manager_id"));
 				e.setDeptId(rs.getInt("dept_id"));
-				e.setfName(rs.getString("firstName"));
-				e.setLname(rs.getString("lastName"));
-
+				e.setFirstName(rs.getString("firstName"));
+				e.setLastName(rs.getString("lastName"));
+				e.setUsername(rs.getString("username"));
+				e.setPassword(rs.getString("password"));
 				return e;
 			}
 			return new Employee();
@@ -85,8 +88,10 @@ public class EmployeeDAOImp implements EmployeeDAO {
 				e.setEmployeeId(rs.getInt("employee_id"));
 				e.setManagerId(rs.getInt("manager_id"));
 				e.setDeptId(rs.getInt("dept_id"));
-				e.setfName(rs.getString("firstName"));
-				e.setLname(rs.getString("lastName"));
+				e.setFirstName(rs.getString("firstName"));
+				e.setLastName(rs.getString("lastName"));
+				e.setUsername(rs.getString("username"));
+				e.setPassword(rs.getString("password"));
 				employees.add(e);
 			}
 
@@ -100,13 +105,15 @@ public class EmployeeDAOImp implements EmployeeDAO {
 	public boolean updateEmployee(Employee e) {
 		try {
 			String sql = "UPDATE employees SET " + "			employee_id = ?, manager_id = ?, dept_id = ?, "
-					+ "			firstName = ?, lastName = ?, WHERE employee_id = ?";
+					+ "			firstName = ?, lastName = ?, username=?, password=? WHERE employee_id = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, e.getEmployeeId());
 			ps.setInt(2, e.getManagerId());
 			ps.setInt(3, e.getDeptId());
-			ps.setString(4, e.getfName());
-			ps.setString(5, e.getLname());
+			ps.setString(4, e.getFirstName());
+			ps.setString(5, e.getLastName());
+			ps.setString(5, e.getUsername());
+			ps.setString(5, e.getPassword());
 			return true;
 		} catch (SQLException exception) {
 			exception.printStackTrace();

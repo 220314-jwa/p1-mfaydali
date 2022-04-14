@@ -1,10 +1,7 @@
 package dev.mfaydali.services;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -73,13 +70,15 @@ public class EmployeeServiceTest {
 		test.setEmployeeId(1);
 		test.setManagerId(10);
 		test.setDeptId(100);
-		test.setfName("Revature");
-		test.setLname("Java");
+		test.setFirstName("Revature");
+		test.setLastName("Java");
+		test.setUsername("username");
+		test.setPassword("password");
 
 		EmployeeDAO employeeDao = mock(EmployeeDAO.class);
 		employeeServ.setEmployeeDao(employeeDao);
 
-		assertTrue("Update employee should return true", employeeServ.updateEmployee(test));
+		assertTrue(employeeServ.updateEmployee(test));
 	}
 
 	@Test
