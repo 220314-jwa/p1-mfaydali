@@ -36,3 +36,4 @@ jobs:
         run: |
           cd TRMS-TuitionReimbursementSystem/
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=220314-jwa_p1-mfaydali
+          
