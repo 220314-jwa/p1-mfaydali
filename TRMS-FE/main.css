@@ -1,0 +1,90 @@
+#cover {
+  background: #222 url('https://unsplash.it/1920/1080/?random') center center no-repeat;
+  background-size: cover;
+  height: 100%;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+nav {
+  display:flex;
+  justify-content: space-around;
+  width:100%;
+}
+
+#cover-caption {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* only used for background overlay not needed for centering */
+form:before {
+    content: '';
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: rgba(188, 184, 244, 0.485);
+    z-index: -1;
+    border-radius: 10px;
+}
+
+button {
+    margin: 10px 10px 10px 10px;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.table tr:hover {
+  background-color: rgba(255,255,255,.075);
+} 
+
+#emailanchor {
+    margin-left: 100%;
+    margin-right: -125%;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted rgb(231, 34, 34);
+  }
+  
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: rgb(231, 21, 21);
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+  }
+  
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
