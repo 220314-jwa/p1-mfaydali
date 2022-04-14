@@ -17,6 +17,12 @@ public class Employee {
 		this.lastName = "";
 	}
 
+
+	public Employee(int i, int j, int k, String string, String string2) {
+		// TODO Auto-generated constructor stub
+	}
+
+
 	// getter and setters
 	public int getEmployeeId() {
 		return employeeId;

@@ -19,7 +19,7 @@ public class ConnectionFactory {
 	private static Properties properties;
 
 	// return our connection to the database:
-	public static Connection getConnection() throws ClassNotFoundException {
+	public static Connection getConnection() {
 		// if no connection yet:
 		if (connection == null) {
 			// set up credentials (url, username, password)

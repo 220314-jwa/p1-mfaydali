@@ -32,11 +32,11 @@ public class App {
 		app.post("/adduser", ctx -> {
 			// because this a function, we actually write code in here:
 			// create a Pet object, we get this data from the body of the HTTP request
-			Employee user= ctx.bodyAsClass(dev.mfaydali.models.Employee.class);
+			Employee employee= ctx.bodyAsClass(dev.mfaydali.models.Employee.class);
 			// get out pet dao from the dao factory:
 			EmployeeDAO employeeDAO = DAOFactory.getEmployeeDAO();
 
-			employeeDAO.create(user);
+			employeeDAO.create(employee);
 		});
 
 		app.post("/employees", ctx -> {

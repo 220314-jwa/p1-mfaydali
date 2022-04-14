@@ -23,7 +23,7 @@ public class EventDAOImp implements EventDAO {
 	@Override
 	public boolean createEvent(Event newEvent) {
 
-		String sql = "insert into Event(eventName, eventId)" + "values(?,?)";
+		String sql = "insert into event_type(event_type_id, event_type_name)" + "values(?,?)";
 
 		try {
 			// create a prepared statement, we pass in the sql command
@@ -73,11 +73,11 @@ public class EventDAOImp implements EventDAO {
 
 	@Override
 	public boolean updateEvent(Event newEvent) {
-		String sql = "UPDATE event SET " + " eventName= ?, eventId = ?, deptId = ? " + "	WHERE eventId = ?";
+		String sql = "UPDATE event_type SET " + " event_type_id = ?, event_name= ? " + "	WHERE event_type_id = ?";
 		try {
 			PreparedStatement ps = connection.prepareStatement(sql);
-			ps.setString(1, newEvent.getEventName());
-			ps.setInt(2, newEvent.getEventId());
+			ps.setInt(1, newEvent.getEventId());
+			ps.setString(2, newEvent.getEventName());
 			return true;
 		} catch (SQLException exception) {
 			exception.printStackTrace();
@@ -89,7 +89,7 @@ public class EventDAOImp implements EventDAO {
 	public boolean deleteEvent(int eventId) {
 
 		try {
-			String sql = "DELETE FROM event WHERE id = ?";
+			String sql = "DELETE FROM event_type WHERE event_type_id = ?";
 
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, eventId);

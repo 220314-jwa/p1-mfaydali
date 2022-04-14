@@ -22,7 +22,7 @@ public class StatusDAOImp implements StatusDAO {
 	@Override
 	public boolean createStatusMessage(Status stat) {
 
-		String sql = "insert into Status(statusId, statusName)" + "values(?,?)";
+		String sql = "insert into status(status_id, status_name)" + "values(?,?)";
 
 		try {
 			// create a prepared statement, we pass in the sql command
@@ -72,15 +72,15 @@ public class StatusDAOImp implements StatusDAO {
 	@Override
 	public Status getStatusMessage(int statusId) {
 		try {
-			String sql = "SELECT * FROM Status WHERE statusId = ?";
+			String sql = "SELECT * FROM status WHERE status_id = ?";
 			PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
 			ps.setString(1, Long.toString(statusId));
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				Status stat = new Status(statusId, sql);
-				stat.setStatusId(rs.getInt("Status_Id"));
-				stat.setStatusName(rs.getString("Status_Name"));
+				stat.setStatusId(rs.getInt("status_id"));
+				stat.setStatusName(rs.getString("status_name"));
 				return stat;
 			}
 			return new Status(statusId, sql);
@@ -93,7 +93,7 @@ public class StatusDAOImp implements StatusDAO {
 	@Override
 	public boolean deleteStatusMessage(int statusId) {
 		try {
-			String sql = "DELETE FROM Status WHERE statusId = ?";
+			String sql = "DELETE FROM status WHERE status_id = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, statusId);
 			ps.executeQuery();

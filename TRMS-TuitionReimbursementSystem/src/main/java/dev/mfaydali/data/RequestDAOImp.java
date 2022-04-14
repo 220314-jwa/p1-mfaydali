@@ -23,8 +23,8 @@ public class RequestDAOImp implements RequestDAO {
 	@Override
 	public boolean createTuitionReimbursementRequest(Request newReq) {
 
-		String sql = "insert into Request(requestId, submitterId, eventId, statusId, eventDate,description, location, submittedAt)"
-				+ "values(?,?,?,?,?,?,?,?)";
+		String sql = "insert into reimbursement_request(request_id, submitter_id, event_type_id, status_id, event_date, cost, description, location, submitted_at)"
+				+ "values(?,?,?,?,?,?,?,?,?)";
 
 		try {
 			// create a prepared statement, we pass in the sql command
@@ -37,9 +37,10 @@ public class RequestDAOImp implements RequestDAO {
 			preparedStatement.setInt(3, newReq.getEventId());
 			preparedStatement.setInt(4, newReq.getStatusId());
 			preparedStatement.setTimestamp(5, (Timestamp) newReq.getEventDate());
-			preparedStatement.setString(6, newReq.getDescription());
-			preparedStatement.setString(7, newReq.getLocation());
-			preparedStatement.setTimestamp(8, (Timestamp) newReq.getSubmittedAt());
+			preparedStatement.setInt(6, newReq.getCost());
+			preparedStatement.setString(7, newReq.getDescription());
+			preparedStatement.setString(8, newReq.getLocation());
+			preparedStatement.setTimestamp(9, (Timestamp) newReq.getSubmittedAt());
 
 			// // shortcut for now, but we need the corresponding id for the status
 			// int status_id;
@@ -81,22 +82,22 @@ public class RequestDAOImp implements RequestDAO {
 	@Override
 	public Request getTuitionReimbursementRequest(int requestId) {
 		try {
-			String sql = "SELECT * FROM Request WHERE requestId = ?";
+			String sql = "SELECT * FROM request_reimbursement WHERE request_id = ?";
 			PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
 			ps.setString(1, Integer.toString(requestId));
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				Request req = new Request(requestId);
-				req.setRequestId(rs.getInt("Request_ID"));
-				req.setSubmitterId(rs.getInt("Submitter_ID"));
-				req.setEventId(rs.getInt("Event_ID"));
-				req.setStatusId(rs.getInt("Status_ID"));
-				req.setEventDate(rs.getTimestamp("Event_DATE"));
-				req.setCost(rs.getInt("Cost"));
-				req.setDescription(rs.getString("Event_Description"));
-				req.setDescription(rs.getString("Event_Location"));
-				req.setSubmittedAt(rs.getTimestamp("Submit_DATE"));
+				req.setRequestId(rs.getInt("request_id"));
+				req.setSubmitterId(rs.getInt("submitter_id"));
+				req.setEventId(rs.getInt("event__type_id"));
+				req.setStatusId(rs.getInt("status_id"));
+				req.setEventDate(rs.getTimestamp("event_date"));
+				req.setCost(rs.getInt("cost"));
+				req.setDescription(rs.getString("description"));
+				req.setDescription(rs.getString("location"));
+				req.setSubmittedAt(rs.getTimestamp("submitted_at"));
 				return req;
 			}
 			return new Request(0);
@@ -117,15 +118,15 @@ public class RequestDAOImp implements RequestDAO {
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				Request req = new Request(requestId);
-				req.setRequestId(rs.getInt("Request_ID"));
-				req.setSubmitterId(rs.getInt("Submitter_ID"));
-				req.setEventId(rs.getInt("Event_ID"));
-				req.setStatusId(rs.getInt("Status_ID"));
-				req.setEventDate(rs.getTimestamp("Event_DATE"));
-				req.setCost(rs.getInt("Cost"));
-				req.setDescription(rs.getString("Event_Description"));
-				req.setDescription(rs.getString("Event_Location"));
-				req.setSubmittedAt(rs.getTimestamp("Submit_DATE"));
+				req.setRequestId(rs.getInt("request_id"));
+				req.setSubmitterId(rs.getInt("submitter_id"));
+				req.setEventId(rs.getInt("event_id"));
+				req.setStatusId(rs.getInt("status_id"));
+				req.setEventDate(rs.getTimestamp("event_date"));
+				req.setCost(rs.getInt("cost"));
+				req.setDescription(rs.getString("description"));
+				req.setDescription(rs.getString("location"));
+				req.setSubmittedAt(rs.getTimestamp("submitted_at"));
 				return req;
 			}
 			return new Request(0);

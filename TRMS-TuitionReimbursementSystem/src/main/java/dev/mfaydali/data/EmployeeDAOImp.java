@@ -14,6 +14,10 @@ public class EmployeeDAOImp implements EmployeeDAO {
 
 	Connection connection;
 
+	public void setConn(Connection connection) {
+		this.connection = connection;
+	}
+
 	// constructor, retrieve/get a connection from the connection factory
 	public EmployeeDAOImp() {
 		// calling the method that we made in ConnectionFactory:
@@ -24,7 +28,7 @@ public class EmployeeDAOImp implements EmployeeDAO {
 	public int createEmployee(Employee e) {
 		// this stores our sql command, that we would normally to DBeaver/command line
 		// 0 1 2 3 4 5
-		String sql = "INSERT INTO Employee (employeeId, managerId, deptId, firstName, lastname)"
+		String sql = "INSERT INTO employees (employee_id, manager_id, dept_id, firstName, lastName)"
 				+ "VALUES (?, ?, ?, ?, ?)";
 		try {
 			// create a prepared statement, we pass in the sql command
@@ -48,17 +52,17 @@ public class EmployeeDAOImp implements EmployeeDAO {
 	@Override
 	public Employee getEmployee(int employeeId) {
 		try {
-			String sql = "SELECT * FROM employees WHERE employeeId = ?";
+			String sql = "SELECT * FROM employees WHERE employee_id = ?";
 			PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 			ps.setInt(1, employeeId);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				Employee e = new Employee();
-				e.setEmployeeId(rs.getInt("Employee_ID"));
-				e.setManagerId(rs.getInt("Manager_ID"));
-				e.setDeptId(rs.getInt("Department_ID"));
-				e.setfName(rs.getString("First_Name"));
-				e.setLname(rs.getString("Last_Name"));
+				e.setEmployeeId(rs.getInt("employee_id"));
+				e.setManagerId(rs.getInt("manager_id"));
+				e.setDeptId(rs.getInt("dept_id"));
+				e.setfName(rs.getString("firstName"));
+				e.setLname(rs.getString("lastName"));
 
 				return e;
 			}
@@ -78,11 +82,11 @@ public class EmployeeDAOImp implements EmployeeDAO {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Employee e = new Employee();
-				e.setEmployeeId(rs.getInt("Employee_ID"));
-				e.setManagerId(rs.getInt("Manager_ID"));
-				e.setDeptId(rs.getInt("Department_ID"));
-				e.setfName(rs.getString("First_Name"));
-				e.setLname(rs.getString("Last_Name"));
+				e.setEmployeeId(rs.getInt("employee_id"));
+				e.setManagerId(rs.getInt("manager_id"));
+				e.setDeptId(rs.getInt("dept_id"));
+				e.setfName(rs.getString("firstName"));
+				e.setLname(rs.getString("lastName"));
 				employees.add(e);
 			}
 
@@ -95,8 +99,8 @@ public class EmployeeDAOImp implements EmployeeDAO {
 	@Override
 	public boolean updateEmployee(Employee e) {
 		try {
-			String sql = "UPDATE employees SET " + "			employeeId = ?, managerId = ?, deptId = ?, "
-					+ "			firstName = ?, lastname = ?, WHERE employeeId = ?";
+			String sql = "UPDATE employees SET " + "			employee_id = ?, manager_id = ?, dept_id = ?, "
+					+ "			firstName = ?, lastName = ?, WHERE employee_id = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, e.getEmployeeId());
 			ps.setInt(2, e.getManagerId());
@@ -113,7 +117,7 @@ public class EmployeeDAOImp implements EmployeeDAO {
 	@Override
 	public boolean deleteEmployee(int employeeId) {
 		try {
-			String sql = "DELETE FROM employees WHERE id = ?";
+			String sql = "DELETE FROM employees WHERE employee_id = ?";
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, employeeId);
 			ps.executeQuery();

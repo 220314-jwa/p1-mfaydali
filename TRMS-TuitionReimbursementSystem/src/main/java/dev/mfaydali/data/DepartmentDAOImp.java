@@ -23,7 +23,7 @@ public class DepartmentDAOImp implements DepartmentDAO {
 
 	@Override
 	public int create (Department newDept) {
-		String sql = "insert into Department(deptId,deptHeadId,deptName)" +
+		String sql = "insert into department(dept_id, dept_head_id, dept_name)" +
 				"values(default,?,?)";
 
 		try {
@@ -82,9 +82,9 @@ public class DepartmentDAOImp implements DepartmentDAO {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Department d = new Department();
-				d.setDeptId(rs.getInt("Department_ID"));
-				d.setDeptHeadId(rs.getInt("DepartmentHead_ID"));
-				d.setDeptName(rs.getString("Department_Name"));
+				d.setDeptId(rs.getInt("department_id"));
+				d.setDeptHeadId(rs.getInt("dept_head_id"));
+				d.setDeptName(rs.getString("dept_name"));
 				department.add(d);
 			}
 
