@@ -1,6 +1,6 @@
 package dev.mfaydali.data;
-
-import static org.junit.Assert.assertEquals;
+/*
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.Date;
@@ -76,3 +76,4 @@ public class RequestDAOTest {
 
 
 }
+ */
