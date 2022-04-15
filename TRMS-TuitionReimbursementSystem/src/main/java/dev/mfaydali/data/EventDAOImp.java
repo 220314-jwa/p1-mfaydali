@@ -12,23 +12,20 @@ import dev.mfaydali.utils.ConnectionFactory;
 public class EventDAOImp implements EventDAO {
 
 	// connection object, used to connect to the database:
-	Connection connection;
 
-	// constructor, retrieve/get a connection from the connection factory
-	public EventDAOImp() {
-		// calling the method that we made in ConnectionFactory:
-		connection = ConnectionFactory.getConnection();
-	}
+	private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFactory();
 
 	@Override
 	public boolean createEvent(Event newEvent) {
+
+		Connection conn = connFactory.getConnection();
 
 		String sql = "insert into event_type(event_type_id, event_type_name)" + "values(?,?)";
 
 		try {
 			// create a prepared statement, we pass in the sql command
 			// also the flag "RETURN_GENERATED_KEYS" so we can get that id that is generated
-			PreparedStatement preparedStatement = connection.prepareStatement(sql,
+			PreparedStatement preparedStatement = conn.prepareStatement(sql,
 					PreparedStatement.RETURN_GENERATED_KEYS);
 			// set the fields:
 			preparedStatement.setInt(1, newEvent.getEventId());
@@ -73,9 +70,11 @@ public class EventDAOImp implements EventDAO {
 
 	@Override
 	public boolean updateEvent(Event newEvent) {
+		Connection conn = connFactory.getConnection();
 		String sql = "UPDATE event_type SET " + " event_type_id = ?, event_name= ? " + "	WHERE event_type_id = ?";
 		try {
-			PreparedStatement ps = connection.prepareStatement(sql);
+
+			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, newEvent.getEventId());
 			ps.setString(2, newEvent.getEventName());
 			return true;
@@ -87,11 +86,12 @@ public class EventDAOImp implements EventDAO {
 
 	@Override
 	public boolean deleteEvent(int eventId) {
+		Connection conn = connFactory.getConnection();
 
 		try {
 			String sql = "DELETE FROM event_type WHERE event_type_id = ?";
 
-			PreparedStatement ps = connection.prepareStatement(sql);
+			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, eventId);
 			ps.executeQuery();
 			return true;
@@ -103,7 +103,7 @@ public class EventDAOImp implements EventDAO {
 	}
 
 	@Override
-	public int create(Event newObj) throws SQLException {
+	public int create(Event newObj){
 		// TODO Auto-generated method stub
 		return 0;
 	}

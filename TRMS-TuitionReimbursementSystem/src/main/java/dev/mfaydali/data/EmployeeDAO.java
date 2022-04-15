@@ -13,6 +13,8 @@ public interface EmployeeDAO extends GenericDAO<Employee> {
 
 	public Employee getEmployee(int employeeId);
 
+	public Employee getByUserName(String username);
+
 	public List<Employee> getAllEmployees();
 
 	public boolean updateEmployee(Employee e);

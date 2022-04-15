@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import dev.mfaydali.models.Request;
@@ -12,16 +13,12 @@ import dev.mfaydali.utils.ConnectionFactory;
 
 public class RequestDAOImp implements RequestDAO {
 	// connection object, used to connect to the database:
-	Connection connection;
-
-	// constructor, retrieve/get a connection from the connection factory
-	public RequestDAOImp() {
-		// calling the method that we made in ConnectionFactory:
-		connection = ConnectionFactory.getConnection();
-	}
+	private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFactory();
 
 	@Override
 	public boolean createTuitionReimbursementRequest(Request newReq) {
+
+		Connection conn = connFactory.getConnection();
 
 		String sql = "insert into reimbursement_request(request_id, submitter_id, event_type_id, status_id, event_date, cost, description, location, submitted_at)"
 				+ "values(?,?,?,?,?,?,?,?,?)";
@@ -29,7 +26,7 @@ public class RequestDAOImp implements RequestDAO {
 		try {
 			// create a prepared statement, we pass in the sql command
 			// also the flag "RETURN_GENERATED_KEYS" so we can get that id that is generated
-			PreparedStatement preparedStatement = connection.prepareStatement(sql,
+			PreparedStatement preparedStatement = conn.prepareStatement(sql,
 					PreparedStatement.RETURN_GENERATED_KEYS);
 			// set the fields:
 			preparedStatement.setInt(1, newReq.getRequestId());
@@ -82,8 +79,9 @@ public class RequestDAOImp implements RequestDAO {
 	@Override
 	public Request getTuitionReimbursementRequest(int requestId) {
 		try {
+			Connection conn = connFactory.getConnection();
 			String sql = "SELECT * FROM request_reimbursement WHERE request_id = ?";
-			PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+			PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
 			ps.setString(1, Integer.toString(requestId));
 			ResultSet rs = ps.executeQuery();
@@ -108,10 +106,11 @@ public class RequestDAOImp implements RequestDAO {
 	}
 
 	@Override
-	public Request getTuitionReimbursementRequest(java.sql.Timestamp ts, int requestId) {
+	public Request getTuitionReimbursementRequestByTime(java.sql.Timestamp ts, int requestId) {
 		try {
+			Connection conn = connFactory.getConnection();
 			String sql = "SELECT * FROM Request WHERE requestId = ? + submittedAt=?";
-			PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+			PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
 			ps.setString(1, Integer.toString(requestId));
 			ps.setTimestamp(2, ts);
@@ -125,7 +124,7 @@ public class RequestDAOImp implements RequestDAO {
 				req.setEventDate(rs.getTimestamp("event_date"));
 				req.setCost(rs.getInt("cost"));
 				req.setDescription(rs.getString("description"));
-				req.setDescription(rs.getString("location"));
+				req.setLocation(rs.getString("location"));
 				req.setSubmittedAt(rs.getTimestamp("submitted_at"));
 				return req;
 			}
@@ -137,7 +136,7 @@ public class RequestDAOImp implements RequestDAO {
 	}
 
 	@Override
-	public int create(Request newObj) throws SQLException {
+	public int create(Request newObj){
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -148,11 +147,6 @@ public class RequestDAOImp implements RequestDAO {
 		return null;
 	}
 
-	@Override
-	public List<Request> getAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void update(Request updatedObj) {
@@ -164,6 +158,59 @@ public class RequestDAOImp implements RequestDAO {
 	public void delete(Request objToDelete) {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public boolean deleteReimbursement(int requestId) {
+		Connection conn = connFactory.getConnection();
+		String sql = "delete from reimbursement_request where request_id = ?;";
+		PreparedStatement ps;
+
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setInt(1, requestId);
+			ps.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			// TODO Implement logging.
+			e.printStackTrace();
+			return false;
+		}
+
+	}
+
+	@Override
+	public List<Request> getAllReimbursements() {
+		List<Request> request = new ArrayList<Request>();
+		try {
+			Connection conn = connFactory.getConnection();
+			String sql = "SELECT * FROM reimbursement_request";
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Request r = new Request(0);
+				r.setRequestId(rs.getInt("request_id"));
+				r.setSubmitterId(rs.getInt("submitter_id"));
+				r.setEventId(rs.getInt("eventId"));
+				r.setStatusId(rs.getInt("statusId"));
+				r.setEventDate(rs.getTimestamp("event_date"));
+				r.setCost(rs.getInt("cost"));
+				r.setDescription(rs.getString("description"));
+				r.setLocation(rs.getString("location"));
+				r.setSubmittedAt(rs.getTimestamp("submitted_at"));
+				request.add(r);
+			}
+
+		} catch (SQLException exception) {
+			exception.printStackTrace();
+		}
+		return request;
+	}
+
+	@Override
+	public List<Request> getAll() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -15,19 +15,7 @@ public class Request {
 	private Date submittedAt;
 
 	// Constructor
-	public Request(int requestId, int submitterId, int eventId, int statusId, Date eventDate, int cost,
-			String description, String location, Date submittedAt) {
-		super();
-		this.requestId = requestId;
-		this.submitterId = submitterId;
-		this.eventId = eventId;
-		this.statusId = statusId;
-		this.eventDate = eventDate;
-		this.cost = cost;
-		this.description = description;
-		this.location = location;
-		this.submittedAt = submittedAt;
-	}
+
 
 	public Request(int i) {
 		this.requestId = 0;
@@ -40,6 +28,27 @@ public class Request {
 		this.location = "";
 		this.submittedAt = new Date();
 	}
+
+
+
+
+	public Request() {
+		this.requestId = requestId;
+		this.submitterId = submitterId;
+		this.eventId = eventId;
+		this.statusId = statusId;
+		this.eventDate = eventDate;
+		this.cost = cost;
+		this.description = description;
+		this.location = location;
+		this.submittedAt = submittedAt;
+	}
+
+
+
+
+
+
 
 	// Getters and Setters
 	public int getRequestId() {

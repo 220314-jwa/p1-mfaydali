@@ -11,26 +11,21 @@ import dev.mfaydali.utils.ConnectionFactory;
 
 public class StatusDAOImp implements StatusDAO {
 	// connection object, used to connect to the database:
-	Connection connection;
-
-	// constructor, retrieve/get a connection from the connection factory
-	public StatusDAOImp() {
-		// calling the method that we made in ConnectionFactory:
-		connection = ConnectionFactory.getConnection();
-	}
+	private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFactory();
 
 	@Override
 	public boolean createStatusMessage(Status stat) {
+		Connection conn = connFactory.getConnection();
 
 		String sql = "insert into status(status_id, status_name)" + "values(?,?)";
 
 		try {
 			// create a prepared statement, we pass in the sql command
 			// also the flag "RETURN_GENERATED_KEYS" so we can get that id that is generated
-			PreparedStatement preparedStatement = connection.prepareStatement(sql,
+			PreparedStatement preparedStatement = conn.prepareStatement(sql,
 					PreparedStatement.RETURN_GENERATED_KEYS);
 			// set the fields:
-			preparedStatement.setString(1, Integer.toString(stat.getStatusId()));
+			preparedStatement.setInt(1, stat.getStatusId());
 			preparedStatement.setString(2, stat.getStatusName());
 
 			// // shortcut for now, but we need the corresponding id for the status
@@ -71,9 +66,10 @@ public class StatusDAOImp implements StatusDAO {
 
 	@Override
 	public Status getStatusMessage(int statusId) {
+		Connection conn = connFactory.getConnection();
 		try {
 			String sql = "SELECT * FROM status WHERE status_id = ?";
-			PreparedStatement ps = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
+			PreparedStatement ps = conn.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 
 			ps.setString(1, Long.toString(statusId));
 			ResultSet rs = ps.executeQuery();
@@ -92,9 +88,10 @@ public class StatusDAOImp implements StatusDAO {
 
 	@Override
 	public boolean deleteStatusMessage(int statusId) {
+		Connection conn = connFactory.getConnection();
 		try {
 			String sql = "DELETE FROM status WHERE status_id = ?";
-			PreparedStatement ps = connection.prepareStatement(sql);
+			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, statusId);
 			ps.executeQuery();
 			return true;
@@ -106,7 +103,7 @@ public class StatusDAOImp implements StatusDAO {
 	}
 
 	@Override
-	public int create(Status newObj) throws SQLException {
+	public int create(Status newObj){
 		// TODO Auto-generated method stub
 		return 0;
 	}

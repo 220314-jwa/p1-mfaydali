@@ -1,6 +1,5 @@
 package dev.mfaydali.data;
 
-import java.sql.SQLException;
 import java.util.Random;
 
 import org.junit.jupiter.api.AfterAll;
@@ -27,12 +26,7 @@ public class EventDAOTest {
 		testNewEvent.setEventName("test_" + rand.nextLong());
 
 
-		try {
-			testEvent.setEventId(eventDao.create(testEvent));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		testEvent.setEventId(eventDao.create(testEvent));
 	}
 
 	@AfterAll

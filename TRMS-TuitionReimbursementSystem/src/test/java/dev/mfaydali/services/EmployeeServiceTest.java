@@ -1,7 +1,9 @@
 package dev.mfaydali.services;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -36,33 +38,24 @@ public class EmployeeServiceTest {
 	@Test
 	public void logInSuccessfully() throws EmployeeNotFoundException {
 		// setup (arguments, expected result, etc.)
-		int employeeId=12345;
+		String username = "mfaydali";
+		String password = "password";
 
 		// mocking: we need to mock userDao.getByUsername(username)
 		// we're expecting a user with matching username & password
-		Employee mockEmployee = new Employee();
-		mockEmployee.setEmployeeId(employeeId);
-		when(employeeDao.getEmployee(employeeId)).thenReturn(mockEmployee);
+		Employee mockUser = new Employee();
+		mockUser.setUsername(username);
+		mockUser.setPassword(password);
+		when(employeeDao.getByUserName(username)).thenReturn(mockUser);
 
 		// call the method we're testing
-		Employee result = employeeServ.loginEmployee(employeeId);
+		Employee result = employeeServ.loginEmployee(username, password);
 
 		// assertion
-		assertEquals(employeeId, result.getEmployeeId());
+		assertEquals(username, result.getUsername());
 	}
 
-	@Test
-	public void logInWrongEmployeeId() {
-		int employeeId=1960;
 
-		// we need to mock userDao.getByUsername(username)
-		when(employeeDao.getEmployee(employeeId)).thenReturn(null);
-
-		assertThrows(EmployeeNotFoundException.class, () -> {
-			// put the code that we're expecting to throw the exception
-			employeeServ.loginEmployee(employeeId);
-		});
-	}
 
 	@Test
 	public void updateEmployeeSuccessfully() {

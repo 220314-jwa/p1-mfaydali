@@ -12,24 +12,19 @@ import dev.mfaydali.utils.ConnectionFactory;
 
 public class DepartmentDAOImp implements DepartmentDAO {
 
-	// connection object, used to connect to the database:
-	Connection connection;
-
-	// constructor, retrieve/get a connection from the connection factory
-	public DepartmentDAOImp() {
-		// calling the method that we made in ConnectionFactory:
-		connection = ConnectionFactory.getConnection();
-	}
+	private static ConnectionFactory connFactory = ConnectionFactory.getConnectionFactory();
 
 	@Override
 	public int create (Department newDept) {
+		Connection conn = connFactory.getConnection();
+
 		String sql = "insert into department(dept_id, dept_head_id, dept_name)" +
 				"values(default,?,?)";
 
 		try {
 			// create a prepared statement, we pass in the sql command
 			// also the flag "RETURN_GENERATED_KEYS" so we can get that id that is generated
-			PreparedStatement preparedStatement = connection.prepareStatement(sql,
+			PreparedStatement preparedStatement = conn.prepareStatement(sql,
 					PreparedStatement.RETURN_GENERATED_KEYS);
 			// set the fields:
 			preparedStatement.setInt(1, newDept.getDeptId());
@@ -77,8 +72,9 @@ public class DepartmentDAOImp implements DepartmentDAO {
 	public List<Department> getAllDepartments() {
 		List<Department> department = new ArrayList<Department>();
 		try {
+			Connection conn = connFactory.getConnection();
 			String sql = "SELECT * FROM department";
-			PreparedStatement ps = connection.prepareStatement(sql);
+			PreparedStatement ps = conn.prepareStatement(sql);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Department d = new Department();

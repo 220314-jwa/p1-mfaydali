@@ -16,14 +16,25 @@ public class EmployeeServiceImpl implements EmployeeServices {
 	private RequestDAO reqDAO = DAOFactory.getRequestDAO();
 
 	@Override
-	public Employee loginEmployee(int employeeId) throws EmployeeNotFoundException {
-		Employee employee = employeeDao.getEmployee(employeeId);
-		if (employee.getEmployeeId() == 0) {
-			throw new EmployeeNotFoundException("The employee id entered does not exist in the database");
-		} else {
+	public Employee loginEmployee(String username, String password) throws EmployeeNotFoundException{
+		Employee employee = employeeDao.getByUserName(username);
+		if (employee != null && employee.getPassword().equals(password)) {
 			return employee;
+		} else {
+			throw new EmployeeNotFoundException();
 		}
 	}
+
+	//	@Override
+	//	public Employee logIn(String username, String password) throws IncorrectCredentialsException {
+	//		Employee employeeFromDatabase = employeeDao.getByUsername(username);
+	//		if (employeeFromDatabase != null && employeeFromDatabase.getPassword().equals(password)) {
+	//			return employeeFromDatabase;
+	//		} else {
+	//			throw new IncorrectCredentialsException();
+	//		}
+	//	}
+
 
 
 	@Override
@@ -62,11 +73,7 @@ public class EmployeeServiceImpl implements EmployeeServices {
 		this.employeeDao = employeeDao;
 	}
 
-	@Override
-	public List<Employee> viewEmployee() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 
 
@@ -76,23 +83,23 @@ public class EmployeeServiceImpl implements EmployeeServices {
 	//		return null;
 	//	}
 
-	@Override
-	public int createEmployee(Employee e) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+
 
 	@Override
-	public Employee register(Employee newEmployee) throws EmployeeAlreadyExistsException {
-		// TODO Auto-generated method stub
-		return null;
+	public Employee getEmployeeById(int employeeId) {
+		return employeeDao.getById(employeeId);
 	}
 
 
 	@Override
-	public Employee getEmployeeById(int Id) {
-		// TODO Auto-generated method stub
-		return null;
+	public Employee registerEmployee(Employee newEmployee) throws EmployeeAlreadyExistsException {
+		int employeeId = employeeDao.create(newEmployee);
+		if (employeeId != 0) {
+			newEmployee.setEmployeeId(employeeId);
+			return newEmployee;
+		} else {
+			throw new EmployeeAlreadyExistsException();
+		}
 	}
 
 }

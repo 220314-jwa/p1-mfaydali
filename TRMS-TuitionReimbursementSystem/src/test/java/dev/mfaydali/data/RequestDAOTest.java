@@ -1,96 +1,78 @@
-//package dev.mfaydali.data;
-//
-//import dev.mfaydali.models.Request;
-//import dev.mfaydali.data.RequestDAO;
-//import dev.mfaydali.data.RequestDAOImp;
-//
-//import org.junit.jupiter.api.Test;
-//
-//import java.util.List;
-//
-//import static org.junit.jupiter.api.Assertions.assertNotEquals;
-//
-//public class RequestDAOTest {
-//
-//    RequestDAO requestDao = DAOFactory.getRequestDAO();
-//    RequestService requestService = new RequestServiceImp(requestRepo);
-//    Request requestOne = requestService.getRequest(1);
-//    Request toBeDeleted = requestService.addRequest(requestOne);
-//
-//    @Test
-//    void getRequest() {
-//
-//        Request actual = requestService.getRequest(1);
-//        assertNotEquals(null, actual);
-//    }
-//
-//    @Test
-//    void getAllRequests() {
-//
-//        List<Request> actual = requestService.getAllRequests();
-//        assertNotEquals(null, actual);
-//    }
-//
-//    @Test
-//    void addRequest() {
-//
-//        Request actual = requestService.addRequest(requestOne);
-//        assertNotEquals(null, actual);
-//    }
-//
-//    @Test
-//    void updateRequest() {
-//
-//        Request actual = requestService.updateRequest(requestOne);
-//        assertNotEquals(null, actual);
-//
-//    }
-//
-//    @Test
-//    void deleteRequest() {
-//
-//        Request actual = requestService.deleteRequest(toBeDeleted);
-//        assertNotEquals(null, actual);
-//
-//    }
-//
-//    @Test
-//    void requestsForSupervisor() {
-//
-//        List<Request> actual = requestService.requestsForSupervisor(2);
-//        assertNotEquals(null, actual);
-//
-//    }
-//
-//    @Test
-//    void requestsForDeptHead() {
-//
-//        List<Request> actual = requestService.requestsForDeptHead(2);
-//        assertNotEquals(null, actual);
-//
-//    }
-//
-//    @Test
-//    void requestsForBenco() {
-//
-//        List<Request> actual = requestService.requestsForBenco();
-//        assertNotEquals(null, actual);
-//
-//    }
-//
-//    @Test
-//    void  requestsForEmployee() {
-//
-//        List<Request> actual = requestService.requestsForEmployee(2);
-//        assertNotEquals(null, actual);
-//
-//    }
-//
-//    @Test
-//    void resolvedRequests() {
-//
-//        List<Request> actual = requestService.resolvedRequests(10);
-//        assertNotEquals(null, actual);
-//
-//    }
-//}
+package dev.mfaydali.data;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
+import java.util.Date;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+
+import dev.mfaydali.models.Request;
+
+public class RequestDAOTest {
+
+	private static RequestDAO requestDao = DAOFactory.getRequestDAO();
+	private static Request testRequest = new Request();
+	private static Request testNewRequest = new Request();
+
+	private static int requestId;
+	private static int submitterId = 1;
+	private static int eventId;
+	private static int statusId;
+	private static Date eventDate;
+	private static int cost = 1;
+	private static String description = "test_description";
+	private static String location = "test_location";
+	private static Date submittedAt;
+
+
+	@BeforeAll
+	public static void init(){
+		//Make sure table to created.
+		//Create mock data for login
+		testRequest = new Request(requestId);
+		testRequest.setRequestId(requestId);
+		testRequest.setSubmitterId(submitterId);
+		testRequest.setEventId(eventId);
+		testRequest.setStatusId(statusId);
+		testRequest.setEventDate(eventDate);
+		testRequest.setCost(cost);
+		testRequest.setDescription(description);
+		testRequest.setLocation(location);
+		testRequest.setSubmittedAt(submittedAt);
+		//Mock user session
+		//Mock user request
+	}
+
+	//one test for each CRUD functions
+	@Test
+	@Order(1)
+	void createRequest() throws Exception {
+		System.out.println("Create Request:");
+		int requestId = requestDao.create(testNewRequest);
+		testNewRequest.setRequestId(requestId);
+
+		assertNotEquals(0, requestId);
+	}
+	@Test
+	@Order(2)
+	void getRequestById() {
+		System.out.println("Get Request by ID:");
+		int requestId = testRequest.getRequestId();
+
+		Request request = requestDao.getById(requestId);
+		assertEquals(testRequest, request);
+	}
+	@Test
+	@Order(3)
+	void getAllRequests() {
+		System.out.println("Get All Requests:");
+		List<Request> requests = requestDao.getAllReimbursements();
+		assertNotEquals(null, requests);
+	}
+
+
+}

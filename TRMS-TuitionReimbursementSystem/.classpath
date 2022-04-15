@@ -37,5 +37,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/mehme/Documents/postgresql-42.3.3.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
+	<classpathentry kind="lib" path="C:/Users/mehme/scoop/selenium-server-4.1.3.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
