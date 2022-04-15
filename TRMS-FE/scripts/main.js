@@ -6,7 +6,7 @@ let logInBtn;
 async function checkLogin() {
     let employeeId = sessionStorage.getItem('Auth-Token');
     loggedOutNavBar();
-    let httpResp = await fetch('http://localhost:5432/employees/' + employeeId);
+    let httpResp = await fetch('http://localhost:7777/employees/' + employeeId);
     if (httpResp && httpResp.status === 200) {
         loggedInUser = await httpResp.json();
         loggedInNavBar();
@@ -54,7 +54,7 @@ async function logIn() {
     };
     let credentialJSON = JSON.stringify(credentials);
 
-    let httpResp = await fetch('http://localhost:5432/auth',
+    let httpResp = await fetch('http://localhost:7777/auth',
         {method:'POST', body:credentialJSON});
     if (httpResp && httpResp.status === 200) {
         loggedInUser = await httpResp.json();

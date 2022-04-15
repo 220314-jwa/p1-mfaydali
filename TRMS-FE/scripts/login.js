@@ -1,46 +1,24 @@
-function supportsLocalStorage () {
-    try {
-        return 'localStorage' in window && window['localStorage'] !== null;
-    } catch (e) {
-        console.log('You dont have local storage');
-        return false;
-    }
+let loggedInEmployee;
+// checkLogin();
+let loginButton = document.getElementById("login");
+loginButton.addEventListener('click',employeeLogin);
+
+async function employeeLogin(){
+    let credentials = {
+        username:document.getElementById('username').value,
+        password:document.getElementById('password').value,
+    };
+    console.log(credentials);
+    let credentialJSON=JSON.stringify(credentials);
+    
+    let httpResp = await fetch('http://localhost:7777/login',
+    {method:'POST', body:credentialJSON});
+if (httpResp && httpResp.status === 200) {
+    loggedInEmployee = await httpResp.json();
+    sessionStorage.setItem('Auth-Token', loggedInEmployee.id);
+    console.log("Status"+ httpResp.status);
+    // await checkLogin();
+  
+    location.replace('requestreimbursement.html');
 }
-
-
-// Dont ask
-async function signIn() {
-    let employeeId = document.getElementById("employeeId").value;
-    let url = `http://localhost:5432/employees?employeeId=${employeeId}}`;
-
-    isLocalStorage = supportsLocalStorage();
-    //console.log("Your browser supports local storage?"  + isLocalStorage)
-
-
-    let httpResponse = await fetch(`http://localhost:5432/employees`);
-    
-
-    let employees = await httpResponse.json();
-    let status = await httpResponse.status;
-    console.log(status);
-    
-    breakme: if(true) {
-        // for each employee in employees
-        for (const key in employees) {
-            if (Object.hasOwnProperty.call(employees, key)) {
-                const employee = employees[key];
-                // if there is a match to sign in credentials, add that employee to local storage
-                if (employee.employeeId == 0) {
-                    //console.log("we have a match! " + employee.name); 
-                    localStorage.setItem("employeeId", employee.employeeId);
-                    window.location.replace("index.html");
-
-                    //break all the way out
-                    break breakme;
-                }
-            } 
-        }
-        // otherwise alert there is no match
-        alert("No user found with these credentials Please try again.");
-    }
 }

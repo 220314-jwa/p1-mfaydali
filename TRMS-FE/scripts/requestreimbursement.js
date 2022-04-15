@@ -1,6 +1,6 @@
 async function addRequest(request) {
        
-    url = "http://localhost:7000/requests"
+    url = "http://localhost:8080/requests"
 
     const options = {
       method: 'POST',
